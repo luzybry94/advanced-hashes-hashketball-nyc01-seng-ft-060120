@@ -132,122 +132,76 @@ end
 # Write code here
 
 def num_points_scored(player_name)
-  game_hash.each do |key, value|
-    value.each do |team_keys, team_values|
-      if team_keys == :players
-        team_values.each do |stats|
-          if stats[:player_name] == player_name
-            return stats[:points]
-        
-        
-          end
-        end
+  game_hash.each do |location_key_sym, team_hash_value|
+    team_hash_value[:players].each do |player_hash_value|
+      if player_hash_value[:player_name] == player_name
+        return player_hash_value[:points]
       end
     end
   end
 end
 
+
 def shoe_size(player_name)
-    game_hash.each do |key, value|
-    value.each do |team_keys, team_values|
-      if team_keys == :players
-        team_values.each do |stats|
-          if stats[:player_name] == player_name
-            return stats[:shoe]
-        
-        
-          end
-        end
+  game_hash.each do |location_key_sym, team_hash_value|
+    team_hash_value[:players].each do |player_hash_value|
+      if player_hash_value[:player_name] == player_name
+        return player_hash_value[:shoe]
       end
     end
   end
 end
 
 def team_colors(team_name)
-    game_hash.each do |key, value|
-      if value[:team_name] == team_name
-        return value[:colors]
-      end
+  game_hash.each do |location_key_sym, team_hash_value|
+    if team_hash_value[:team_name] == team_name
+        return team_hash_value[:colors]
+    end
   end
 end
 
 def team_names
-  game_hash.map do |key, value|
-  value[:team_name]
+  new_array = []
+  game_hash.each do |location_key_sym, team_hash_value|
+    new_array << team_hash_value[:team_name]
   end
+  new_array
 end
 
 
 def  player_numbers(team_name)
   new_array = []
-  game_hash.each do |key, value|
-    if value[:team_name] == team_name
-      
-    value.each do |team_keys, team_values|
-      if team_keys == :players
-        team_values.each do |stats|
-          new_array << stats[:number]
+    game_hash.each do |location_key_sym, team_hash_value|
+      if team_hash_value[:team_name] == team_name
+        team_hash_value[:players].each do |player_data_hash_val|
+          new_array << player_data_hash_val[:number]
         end
       end
-     end
     end
-  end
   new_array
 end
 
 def player_stats(player_name)
-  new_hash = {}
-  game_hash.each do |key, value|
-    value.each do |team_keys, team_values|
-      if team_keys == :players
-        team_values.each do |stats, stat_value|
-          if stats[:player_name] == player_name
-          new_hash = stats.each do |key, value|
-            key == :player_name
-          end
-          end
-        end
+  game_hash.each do |location_key_sym, team_hash_value|
+    team_hash_value[:players].each do |player_data_hash_val|
+      if player_data_hash_val[:player_name] == player_name
+        return player_data_hash_val
+      end
     end
-   end
- end
- new_hash
+  end
 end
 
-def big_shoe_rebounds()
-  biggest_shoe = 0
+def big_shoe_rebounds
+  shoe_size = 0
   number_of_rebounds = 0
-  game_hash.each do |key, value|
-    value.each do |team_keys, team_values|
-      if team_keys == :players
-        team_values.each do |stats|
-          if stats[:shoe] > biggest_shoe
-            biggest_shoe = stats[:shoe]
-            number_of_rebounds = stats[:rebounds]
-        
-        
-          end
-        end
+  game_hash.each do |location_key_sym, team_hash_value|
+    team_hash_value[:players].each do |player_data_hash_val|
+      if player_data_hash_val[:shoe] > shoe_size
+        shoe_size = player_data_hash_val[:shoe]
+        number_of_rebounds = player_data_hash_val[:rebounds]
       end
     end
   end
   number_of_rebounds
 end
-  
-  
-  
-  
-  
-# * Build a method, `big_shoe_rebounds`, that will return the number of rebounds
-#   associated with the player that has the largest shoe size. Break this one down
-#   into steps:
 
-#   * First, find the player with the largest shoe size
-#   * Then, return that player's number of rebounds
-#   * Remember to think about return values here.
-
-  
-  
-  
-  
-  
-  
